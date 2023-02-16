@@ -21,7 +21,7 @@
 
 <body>
     <div id="app">
-        {{products}}
+        
 
 
         <div class="container">
@@ -127,11 +127,12 @@
                 </table>
             </div>
             <div class="my-5 row justify-content-center">
-                <!-- <v-form ref="form" class="col-md-6" v-slot="{ errors }">
+                <v-form ref="form" class="col-md-6" v-slot="{ errors }">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <v-field id="email" name="email" type="email" class="form-control"
-                            :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入 Email"></v-field>
+                        <v-field id="email" name="email" type="email" class="form-control" 
+                        rules="required|email" :class="{ 'is-invalid': errors['email'] }"
+                            placeholder="請輸入 Email"></v-field>
                         <error-message name="email" class="invalid-feedback"></error-message>
                     </div>
 
@@ -145,7 +146,8 @@
                     <div class="mb-3">
                         <label for="tel" class="form-label">收件人電話</label>
                         <v-field id="tel" name="電話" type="text" class="form-control"
-                            :class="{ 'is-invalid': errors['電話'] }" placeholder="請輸入電話"></v-field>
+                            :class="{ 'is-invalid': errors['電話'] }" placeholder="請輸入電話"
+                            rules="required|numeric|min:8|digits:8"></v-field>
                         <error-message name="電話" class="invalid-feedback"></error-message>
                     </div>
 
@@ -163,7 +165,7 @@
                     <div class="text-end">
                         <button type="submit" class="btn btn-danger">送出訂單</button>
                     </div>
-                </v-form> -->
+                </v-form>
             </div>
         </div>
     </div>
@@ -210,6 +212,11 @@
       </div>
     </script>
 
+    <!-- validate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+    <!--  -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.min.js'
         integrity='sha512-Xk3wWei2TGrsh9kDSBKUMIjw/86sLUvhtnv9f7fOuIwhhiUTKz8szkWkzHthrM5Bb3Bu9idSzkxOrkzhcneuiw=='
         crossorigin='anonymous'></script>

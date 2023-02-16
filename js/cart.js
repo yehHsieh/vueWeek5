@@ -1,6 +1,21 @@
 // import {createApp} from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-bundler.min.js';
 const { createApp } = Vue;
 
+Object.keys(VeeValidateRules).forEach(rule => {
+    if (rule !== 'default') {
+        VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+    }
+});
+
+// 讀取外部的資源
+VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
+
+// Activate the locale
+VeeValidate.configure({
+  generateMessage: VeeValidateI18n.localize('zh_TW'),
+  validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+});
+
 const apiUrl = 'https://vue3-course-api.hexschool.io';
 const apiPath = 'practiceapi';
 
@@ -19,15 +34,15 @@ const productModal = {
     watch: {
         id() {
             console.log('productModal:', this.id);
-            if(this.id){
+            if (this.id) {
                 // this.loadingModal = this.id;
                 axios.get(`${apiUrl}/v2/api/${apiPath}/product/${this.id}`)
-                .then(res => {
-                    console.log('單一產品:', res.data.product);
-                    this.tempProduct = res.data.product;
-                    this.modal.show();
-                    // loadingModal = "";
-                })
+                    .then(res => {
+                        console.log('單一產品:', res.data.product);
+                        this.tempProduct = res.data.product;
+                        this.modal.show();
+                        // loadingModal = "";
+                    })
             }
         }
     },
@@ -42,21 +57,22 @@ const productModal = {
         this.modal = new bootstrap.Modal(this.$refs.modal);
 
         //監聽modal關閉
-        this.$refs.modal.addEventListener('hidden.bs.modal',(event)=>{
+        this.$refs.modal.addEventListener('hidden.bs.modal', (event) => {
             console.log("Close");
             this.openModal('');
         })
     }
-}
+};
 
 
-const app = {
+const app = Vue.createApp({
     data() {
         return {
             products: [],
             productId: '',
             cart: {},
-            loadingItem:'',
+            loadingItem: '',
+            user:{},
         }
     },
 
@@ -73,7 +89,7 @@ const app = {
         openModal(id) {
             this.productId = id;
             console.log("外層帶入productId:", id)
-            this.loadingItem =id;
+            this.loadingItem = id;
         },
         addToCart(product_id, qty = 1) {
             const data = {
@@ -124,13 +140,16 @@ const app = {
     components: {
         productModal,
     },
-    
+
     mounted() {
         this.getProducts();
         this.getCarts();
         console.log(VueLoading)
     }
-};
+});
 
-createApp(app)
-    .mount('#app');
+app.component('VForm', VeeValidate.Form);
+app.component('VField', VeeValidate.Field);
+app.component('ErrorMessage', VeeValidate.ErrorMessage);
+
+app.mount("#app")
