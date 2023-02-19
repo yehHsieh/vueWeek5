@@ -92,7 +92,7 @@
                                 <td>
                                     <button type="button" class="btn btn-outline-danger btn-sm"
                                         @click="deleteItem(item)" :disabled="item.id === loadingItem">
-                                        <i class="fas fa-spinner fa-pulse"></i>
+                                        <i class="fas fa-spinner fa-pulse" v-if="loadingItem === item.id"></i>
                                         x
                                     </button>
                                 </td>
